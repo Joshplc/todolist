@@ -1,32 +1,32 @@
 import {Router} from 'express'
-import fs from 'fs'
-import path from 'path'
 import { validateToDo } from '../schemas/TodoSchemaValidation'
-
-const dbPath = path.join(__dirname, '..', 'src', 'db', 'tasks.json')
+import {Task, todoModel} from '../models/todoModel'
 
 export const todosRouter = Router()
 
-interface Task {
-    id: number
-    title: string
-    completed: boolean
-}
 
-todosRouter.get('/', (req, res) => {
-        const tasks: Task[] = JSON.parse(fs.readFileSync(dbPath, 'utf-8'))
+todosRouter.get('/', async (req, res) => {
+    try {
+        const tasks: Task[] = await todoModel.getAllTasks()
         res.json(tasks)
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' })
+    }
 })
 
-todosRouter.post('/',  (req, res) => {
-    const tasks: Task[] = JSON.parse(fs.readFileSync(dbPath, 'utf-8'))
-    const newTask: Task = { id: Date.now(), ...req.body }
+todosRouter.post('/', async (req, res) => {
     const result = validateToDo(req.body)
     
     if (result.error) {
         return res.status(400).json({ error: JSON.parse(result.error.message )})
     }
-    tasks.push(newTask)
-    fs.writeFileSync(dbPath, JSON.stringify(tasks, null, 2))
-    res.status(201).json(newTask)
+
+    const newTask: Task = { id: Date.now(), ...req.body };
+
+    try {
+        await todoModel.addTask(newTask);
+        res.status(201).json(newTask);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
 })

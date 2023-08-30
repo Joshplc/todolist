@@ -8,5 +8,10 @@
     "id": 2,
     "title": "Finish project",
     "completed": false
+  },
+  {
+    "id": 3,
+    "title": "Eat Bananas",
+    "completed": false
   }
 ]
