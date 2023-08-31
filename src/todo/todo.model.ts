@@ -10,13 +10,19 @@ export interface Task {
 }
 
 export class TodoModel {
-    static async getAllTasks(): Promise<Task[]> {
-        return JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+    private readonly dbPath: string
+
+    constructor(dbPath: string) {
+        this.dbPath = dbPath
     }
 
-    static async addTask(task: Task): Promise<void> {
-        const tasks: Task[] = await TodoModel.getAllTasks()
+    async getAllTasks(): Promise<Task[]> {
+        return JSON.parse(fs.readFileSync(this.dbPath, 'utf-8'))
+    }
+
+    async addTask(task: Task): Promise<void> {
+        const tasks: Task[] = await this.getAllTasks()
         tasks.push(task)
-        fs.writeFileSync(dbPath, JSON.stringify(tasks, null, 2))
+        fs.writeFileSync(this.dbPath, JSON.stringify(tasks, null, 2))
     }
 }

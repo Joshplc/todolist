@@ -1,11 +1,17 @@
-import { Task, TodoModel } from "./todo.model";
+import { Task, TodoModel } from "./todo.model"
 
 export class TodoService {
-    static async getAllTasks(): Promise<Task[]> {
-        return TodoModel.getAllTasks();
+    private todoModel: TodoModel
+
+    constructor(todoModel: TodoModel) {
+        this.todoModel = todoModel
     }
 
-    static async addTask(newTask: Task): Promise<void> {
-        return TodoModel.addTask(newTask);
+    async getAllTasks(): Promise<Task[]> {
+        return this.todoModel.getAllTasks()
+    }
+
+    async addTask(newTask: Task): Promise<void> {
+        return this.todoModel.addTask(newTask)
     }
 }

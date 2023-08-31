@@ -1,16 +1,15 @@
-import { Router } from 'express';
-import { TodoController } from './todo.controllers';
+import { Router } from 'express'
+import { TodoController } from './todo.controllers'
 
 export class TodosRouter {
-    router = Router();
+    router = Router()
 
-    constructor() {
-        this.initializeRoutes();
+    constructor(todoController: TodoController) {
+        this.initializeRoutes(todoController)
     }
 
-    private initializeRoutes() {
-        this.router.get('/', TodoController.getAll);
-        this.router.post('/', TodoController.add);
-        // Add more routes here if needed
+    private initializeRoutes(todoController: TodoController) {
+        this.router.get('/', todoController.getAll)
+        this.router.post('/', todoController.add)
     }
 }
