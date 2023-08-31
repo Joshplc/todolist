@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const dbPath = path.join(__dirname, '..', 'src', 'db', 'tasks.json')
+const dbPath = path.join(__dirname, '..', 'db', 'tasks.json')
 
 export interface Task {
     id: number

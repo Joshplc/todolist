@@ -1,6 +1,6 @@
 import { Task, TodoModel } from "./todo.model"
 import { Request, Response } from 'express'
-import { validateToDo } from './Todo.validations'
+import { validateToDo } from './todo.validations'
 
 export class TodoController {
     static async getAll(req: Request, res: Response) {
