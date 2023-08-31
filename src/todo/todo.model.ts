@@ -9,13 +9,13 @@ export interface Task {
     completed: boolean
 }
 
-export class todoModel {
+export class TodoModel {
     static async getAllTasks(): Promise<Task[]> {
         return JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
     }
 
     static async addTask(task: Task): Promise<void> {
-        const tasks: Task[] = await todoModel.getAllTasks()
+        const tasks: Task[] = await TodoModel.getAllTasks()
         tasks.push(task)
         fs.writeFileSync(dbPath, JSON.stringify(tasks, null, 2))
     }

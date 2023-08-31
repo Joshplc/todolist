@@ -1,11 +1,11 @@
-import { Task, todoModel } from "../models/todoModel"
+import { Task, TodoModel } from "./todo.model"
 import { Request, Response } from 'express'
-import { validateToDo } from '../schemas/TodoSchemaValidation'
+import { validateToDo } from './Todo.validations'
 
-export class todoController {
+export class TodoController {
     static async getAll(req: Request, res: Response) {
         try {
-            const tasks: Task[] = await todoModel.getAllTasks()
+            const tasks: Task[] = await TodoModel.getAllTasks()
             res.json(tasks)
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' })
@@ -22,7 +22,7 @@ export class todoController {
         const newTask: Task = { id: Date.now(), ...req.body }
     
         try {
-            await todoModel.addTask(newTask)
+            await TodoModel.addTask(newTask)
             res.status(201).json(newTask)
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' })
